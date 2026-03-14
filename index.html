@@ -283,7 +283,7 @@ footer { background: var(--gd); padding: 52px 20px; text-align: center; }
         <p>その店舗限定のドリンクを注文して味わおう！</p>
       </div>
       <div class="step rv d4s">
-        <div class="step-n">04</div><span class="step-ico">💕</span>
+        <div class="step-n">04</div><span class="step-ico">✅</span>
         <h3>コレクションに追加</h3>
         <p>飲んだらドリンクカードをタップして記録しよう。全5種類制覇を目指せ！</p>
       </div>
@@ -423,7 +423,7 @@ function buildDrinks() {
       ? '<a href="' + d.link + '" target="_blank" rel="noopener" class="detail-btn">詳細 →</a>'
       : '';
     el.innerHTML =
-      '<div class="drink-top">' + visual + '<div class="got-layer">✅</div><div class="lim">限定</div></div>' +
+      '<div class="drink-top">' + visual + '<div class="got-layer">💕</div><div class="lim">限定</div></div>' +
       '<div class="drink-body">' +
         '<div class="drink-lbl">' + d.area + '</div>' +
         '<div class="drink-name">' + d.name + '</div>' +
