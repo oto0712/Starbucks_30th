@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>群馬DC 限定ドリンク | Starbucks Coffee</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ★ 編集ガイド ★
+   ドリンク情報 → DRINKS 配列（name, desc, emoji, bg1, bg2 を変更）
+   店舗情報    → STORES 配列（name, addr, hours を変更）
+   ドリンク割当 → STORES の drink プロパティ（0〜4の番号）
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+:root {
+  --g-dark:  #1E3932;
+  --g-mid:   #00704A;
+  --g-light: #D4E9E2;
+  --gold:    #CBA258;
+  --cream:   #F2F0EB;
+  --white:   #FDFAF5;
+  --t-dark:  #1A1A1A;
+  --t-mid:   #444;
+  --t-soft:  #888;
+  /* ドリンクカラー（ドリンクA〜E） */
+  --d0: #00704A; --d0b: #E0F5EC;
+  --d1: #1565A0; --d1b: #E0EBF7;
+  --d2: #C0285A; --d2b: #F7E0EA;
+  --d3: #6B3FA0; --d3b: #EEE0F7;
+  --d4: #B06000; --d4b: #F7EDDC;
+  /* エリアカラー */
+  --前橋市:   #8B5E3C;
+  --伊勢崎市: #1A6B91;
+  --太田市:   #2E7D5A;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--t-dark);overflow-x:hidden}
+
+/* ── HERO ── */
+.hero{
+  background:var(--g-dark);min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;padding:80px 20px 130px;text-align:center;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 20% 60%,rgba(0,112,74,.45) 0%,transparent 55%),
+             radial-gradient(ellipse at 80% 15%,rgba(203,162,88,.2) 0%,transparent 50%);
+}
+.hero-dots{
+  position:absolute;inset:0;
+  background-image:radial-gradient(rgba(255,255,255,.06) 1px,transparent 1px);
+  background-size:28px 28px;
+}
+.hero-z{position:relative;z-index:1;max-width:660px}
+.eyebrow-tag{
+  display:inline-block;border:1px solid rgba(203,162,88,.5);color:var(--gold);
+  font-size:10px;letter-spacing:.25em;padding:6px 20px;margin-bottom:30px;
+  font-family:'Noto Serif JP',serif;animation:up .9s ease both;
+}
+.hero-mark{
+  font-size:4rem;display:block;margin-bottom:18px;
+  animation:up .9s .1s ease both;
+  filter:drop-shadow(0 8px 28px rgba(0,112,74,.55));
+}
+.hero h1{
+  font-family:'Noto Serif JP',serif;font-weight:900;
+  font-size:clamp(1.9rem,5.5vw,3.4rem);color:#fff;line-height:1.18;
+  margin-bottom:18px;animation:up .9s .2s ease both;
+}
+.hero h1 .gold{color:var(--gold)}
+.hero-lead{color:rgba(255,255,255,.68);font-size:14px;line-height:1.9;margin-bottom:44px;animation:up .9s .3s ease both}
+.hero-nums{display:flex;gap:44px;justify-content:center;animation:up .9s .4s ease both}
+.hero-num .n{font-family:'Noto Serif JP',serif;font-size:2.5rem;font-weight:900;color:var(--gold);line-height:1}
+.hero-num .l{font-size:10px;color:rgba(255,255,255,.45);letter-spacing:.12em;margin-top:4px}
+.scroll-hint{
+  position:absolute;bottom:34px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  color:rgba(255,255,255,.3);font-size:10px;letter-spacing:.2em;
+  animation:up 1s .9s ease both;
+}
+.scroll-hint::after{
+  content:'';width:1px;height:42px;
+  background:linear-gradient(to bottom,rgba(255,255,255,.3),transparent);
+  animation:blink 1.8s ease-in-out infinite;
+}
+
+/* ── NAV ── */
+nav{position:sticky;top:0;z-index:100;background:var(--g-dark);border-bottom:1px solid rgba(203,162,88,.2);padding:0 20px}
+.nav-in{max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:52px}
+.nav-brand{color:var(--gold);font-family:'Noto Serif JP',serif;font-size:13px;letter-spacing:.1em}
+.nav-links{display:flex;gap:2px;list-style:none}
+.nav-links a{color:rgba(255,255,255,.6);text-decoration:none;font-size:12px;padding:6px 12px;border-radius:4px;transition:all .2s}
+.nav-links a:hover{color:#fff;background:rgba(255,255,255,.08)}
+
+/* ── SECTION ── */
+section{padding:80px 20px}
+.container{max-width:960px;margin:0 auto}
+.sec-head{margin-bottom:48px}
+.sec-eye{font-size:11px;letter-spacing:.25em;color:var(--g-mid);font-weight:700;text-transform:uppercase;margin-bottom:10px}
+.sec-ttl{font-family:'Noto Serif JP',serif;font-size:clamp(1.6rem,4vw,2.3rem);font-weight:900;color:var(--g-dark);line-height:1.2}
+.sec-ttl em{color:var(--g-mid);font-style:normal}
+.bar{width:40px;height:3px;background:linear-gradient(to right,var(--gold),var(--g-mid));margin-top:14px;border-radius:2px}
+.sec-note{margin-top:12px;font-size:13px;color:var(--t-soft)}
+
+/* ── DRINK COLLECTION ── */
+#drinks{background:var(--white)}
+.col-bar-wrap{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:24px;gap:12px;flex-wrap:wrap}
+.col-bar{flex:1;min-width:180px}
+.pbar{background:var(--g-light);border-radius:100px;height:10px;overflow:hidden;margin-bottom:6px}
+.pfill{height:100%;background:linear-gradient(to right,var(--g-mid),var(--gold));border-radius:100px;width:0%;transition:width .7s cubic-bezier(.34,1.56,.64,1)}
+.ptxt{font-size:13px;color:var(--t-soft)}
+.ptxt strong{color:var(--g-mid);font-size:18px}
+.btn-reset{background:none;border:1.5px solid var(--g-light);color:var(--t-soft);padding:8px 18px;border-radius:100px;font-size:12px;cursor:pointer;transition:all .2s;font-family:inherit}
+.btn-reset:hover{border-color:var(--g-mid);color:var(--g-mid)}
+
+.drink-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+
+.drink-card{
+  border-radius:18px;overflow:hidden;border:2px solid transparent;
+  box-shadow:0 2px 12px rgba(0,0,0,.07);transition:all .3s;cursor:pointer;
+  background:#fff;position:relative;
+}
+.drink-card:hover{transform:translateY(-5px);box-shadow:0 12px 32px rgba(0,0,0,.12)}
+.drink-card.got{border-color:var(--g-mid)}
+.drink-card.got .got-layer{opacity:1}
+
+.drink-top{
+  height:120px;display:flex;align-items:center;justify-content:center;
+  font-size:3.2rem;position:relative;
+}
+.got-layer{position:absolute;inset:0;background:rgba(0,112,74,.85);display:flex;align-items:center;justify-content:center;font-size:2.5rem;opacity:0;transition:opacity .3s}
+.lim-badge{
+  position:absolute;top:8px;right:8px;background:var(--g-dark);color:var(--gold);
+  font-size:8px;font-weight:700;letter-spacing:.08em;padding:2px 7px;border-radius:100px;
+}
+.drink-body{padding:12px 12px 14px}
+.drink-lbl{font-size:9px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;margin-bottom:4px}
+.drink-name{font-family:'Noto Serif JP',serif;font-weight:700;font-size:13px;color:var(--g-dark);line-height:1.35;margin-bottom:6px}
+.drink-desc{font-size:10px;color:var(--t-soft);line-height:1.6;margin-bottom:8px}
+.stores-count{font-size:10px;font-weight:700;padding:3px 10px;border-radius:100px;display:inline-block}
+
+/* Dynamic drink colors via JS */
+.d0 .drink-top{background:linear-gradient(135deg,#e0f5ec,#c8ead8)}
+.d1 .drink-top{background:linear-gradient(135deg,#e0ebf7,#c8d8f0)}
+.d2 .drink-top{background:linear-gradient(135deg,#f7e0ea,#f0c8d8)}
+.d3 .drink-top{background:linear-gradient(135deg,#eee0f7,#e0c8f0)}
+.d4 .drink-top{background:linear-gradient(135deg,#f7eddc,#f0dcc0)}
+.d0 .drink-lbl{color:var(--d0)} .d0 .stores-count{background:var(--d0b);color:var(--d0)}
+.d1 .drink-lbl{color:var(--d1)} .d1 .stores-count{background:var(--d1b);color:var(--d1)}
+.d2 .drink-lbl{color:var(--d2)} .d2 .stores-count{background:var(--d2b);color:var(--d2)}
+.d3 .drink-lbl{color:var(--d3)} .d3 .stores-count{background:var(--d3b);color:var(--d3)}
+.d4 .drink-lbl{color:var(--d4)} .d4 .stores-count{background:var(--d4b);color:var(--d4)}
+
+.complete-banner{
+  display:none;margin-top:28px;
+  background:linear-gradient(135deg,var(--g-dark),var(--g-mid));
+  color:#fff;border-radius:20px;padding:32px;text-align:center;
+  animation:popin .5s cubic-bezier(.34,1.56,.64,1);
+}
+.complete-banner.show{display:block}
+.complete-banner .trophy{font-size:3rem;margin-bottom:10px}
+.complete-banner h3{font-family:'Noto Serif JP',serif;font-size:1.4rem;margin-bottom:8px}
+.complete-banner p{opacity:.8;font-size:13px;line-height:1.8}
+
+/* ── STORE STATUS ── */
+#status{background:var(--cream)}
+.city-tabs{display:flex;gap:8px;margin-bottom:28px;flex-wrap:wrap}
+.ctab{
+  padding:8px 20px;border-radius:100px;border:1.5px solid var(--g-light);
+  background:#fff;font-size:13px;font-weight:700;cursor:pointer;
+  transition:all .2s;font-family:inherit;color:var(--t-mid);
+}
+.ctab.on,.ctab:hover{background:var(--g-dark);border-color:var(--g-dark);color:#fff}
+
+.store-list{display:flex;flex-direction:column;gap:10px}
+.store-card{
+  background:#fff;border-radius:16px;padding:16px 20px;
+  display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:14px;
+  box-shadow:0 2px 10px rgba(0,0,0,.05);border:1.5px solid transparent;transition:all .25s;
+}
+.store-card:hover{box-shadow:0 6px 24px rgba(0,0,0,.1)}
+.store-card.hide{display:none}
+
+.snum{
+  width:44px;height:44px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Noto Serif JP',serif;font-weight:900;font-size:1rem;color:#fff;flex-shrink:0;
+}
+.c-前橋市 .snum{background:var(--前橋市)}
+.c-伊勢崎市 .snum{background:var(--伊勢崎市)}
+.c-太田市 .snum{background:var(--太田市)}
+.c-前橋市{border-color:rgba(139,94,60,.12)}
+.c-伊勢崎市{border-color:rgba(26,107,145,.12)}
+.c-太田市{border-color:rgba(46,125,90,.12)}
+
+.sinfo h3{font-size:14px;font-weight:700;color:var(--g-dark);margin-bottom:3px}
+.saddr{font-size:11px;color:var(--t-soft);margin-bottom:3px}
+.shours{font-size:11px;color:var(--g-mid);font-weight:600;margin-bottom:7px}
+.drink-tag{
+  font-size:11px;font-weight:700;padding:4px 12px;border-radius:100px;
+  display:inline-flex;align-items:center;gap:5px;
+}
+.dt0{background:var(--d0b);color:var(--d0)}
+.dt1{background:var(--d1b);color:var(--d1)}
+.dt2{background:var(--d2b);color:var(--d2)}
+.dt3{background:var(--d3b);color:var(--d3)}
+.dt4{background:var(--d4b);color:var(--d4)}
+
+.map-btn{
+  background:var(--g-light);color:var(--g-dark);border:none;border-radius:8px;
+  padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;
+  text-decoration:none;white-space:nowrap;transition:all .2s;font-family:inherit;
+  flex-shrink:0;
+}
+.map-btn:hover{background:var(--g-mid);color:#fff}
+
+/* ── FOOTER ── */
+footer{background:var(--g-dark);padding:52px 20px;text-align:center}
+.f-mark{font-size:2.2rem;margin-bottom:12px}
+.f-brand{font-family:'Noto Serif JP',serif;color:var(--gold);font-size:14px;letter-spacing:.12em;margin-bottom:8px}
+.f-note{color:rgba(255,255,255,.3);font-size:11px;line-height:1.9}
+
+/* ── ANIM ── */
+@keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+@keyframes blink{0%,100%{opacity:.35}50%{opacity:.9}}
+@keyframes popin{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:none}}
+.fi{opacity:0;transform:translateY(22px);transition:opacity .6s,transform .6s}
+.fi.vis{opacity:1;transform:none}
+
+@media(max-width:700px){
+  .nav-links{display:none}
+  .drink-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .store-card{grid-template-columns:40px 1fr}
+  .map-btn{display:none}
+  .hero-nums{gap:28px}
+}
+@media(max-width:400px){
+  .drink-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-dots"></div>
+  <div class="hero-z">
+    <div class="eyebrow-tag">STARBUCKS COFFEE — 群馬 DC</div>
+    <span class="hero-mark">☕</span>
+    <h1>群馬DC<br><span class="gold">限定ドリンク</span><br>コレクション</h1>
+    <p class="hero-lead">
+      群馬ディストリクトの各店舗でしか飲めない、<br>
+      店舗限定ドリンクが登場。全5種類の制覇を目指そう。
+    </p>
+    <div class="hero-nums">
+      <div class="hero-num"><div class="n">5</div><div class="l">限定ドリンク</div></div>
+      <div class="hero-num"><div class="n">13</div><div class="l">対象店舗</div></div>
+      <div class="hero-num"><div class="n">3</div><div class="l">エリア</div></div>
+    </div>
+  </div>
+  <div class="scroll-hint">SCROLL</div>
+</section>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-in">
+    <div class="nav-brand">☕ 群馬DC 限定ドリンク</div>
+    <ul class="nav-links">
+      <li><a href="#drinks">ドリンク一覧</a></li>
+      <li><a href="#status">販売店舗</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- DRINK COLLECTION -->
+<section id="drinks">
+  <div class="container">
+    <div class="sec-head fi">
+      <div class="sec-eye">Drink Collection</div>
+      <h2 class="sec-ttl">限定<em>ドリンク</em></h2>
+      <div class="bar"></div>
+      <p class="sec-note">☝️ 飲んだドリンクをタップしてコレクションしよう！</p>
+    </div>
+
+    <div class="col-bar-wrap fi">
+      <div class="col-bar">
+        <div class="pbar"><div class="pfill" id="pf"></div></div>
+        <div class="ptxt"><strong id="pc">0</strong> / 5 種類制覇</div>
+      </div>
+      <button class="btn-reset" onclick="reset()">リセット</button>
+    </div>
+
+    <div class="drink-grid fi" id="dGrid"></div>
+
+    <div class="complete-banner" id="cBanner">
+      <div class="trophy">🏆</div>
+      <h3>全5種類制覇おめでとう！</h3>
+      <p>群馬DC限定ドリンクをすべて制覇しました！<br>ぜひ友達にもシェアしてください ☕</p>
+    </div>
+  </div>
+</section>
+
+<!-- STORE STATUS -->
+<section id="status">
+  <div class="container">
+    <div class="sec-head fi">
+      <div class="sec-eye">Store & Drink Info</div>
+      <h2 class="sec-ttl">店舗別<em>販売情報</em></h2>
+      <div class="bar"></div>
+      <p class="sec-note">各店舗で販売している限定ドリンクを確認できます。</p>
+    </div>
+    <div class="city-tabs fi">
+      <button class="ctab on" onclick="filter('all',this)">すべて（13）</button>
+      <button class="ctab" onclick="filter('前橋市',this)">前橋市（3）</button>
+      <button class="ctab" onclick="filter('伊勢崎市',this)">伊勢崎市（6）</button>
+      <button class="ctab" onclick="filter('太田市',this)">太田市（4）</button>
+    </div>
+    <div class="store-list fi" id="sList"></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-mark">☕</div>
+  <div class="f-brand">Starbucks Coffee — 群馬 DC</div>
+  <div class="f-note">
+    ※掲載情報は予告なく変更になる場合があります。<br>
+    ※限定ドリンクは各店舗の在庫状況により販売終了となる場合があります。
+  </div>
+</footer>
+
+<script>
+// ════════════════════════════════════════════════════
+//  ★ ここだけ編集すれば完成！ ★
+//
+//  DRINKS[i].name  → ドリンク名に変更
+//  DRINKS[i].desc  → 説明文に変更
+//  DRINKS[i].emoji → 絵文字に変更
+//
+//  STORES[i].drink → そのお店のドリンク番号（0〜4）
+// ════════════════════════════════════════════════════
+const DRINKS = [
+  { id:0, name:'ドリンク A', desc:'前橋エリア限定の特別な一杯。',     emoji:'🌿', area:'前橋エリア' },
+  { id:1, name:'ドリンク B', desc:'伊勢崎西エリア限定。コクのある深み。', emoji:'☕', area:'伊勢崎西エリア' },
+  { id:2, name:'ドリンク C', desc:'伊勢崎東エリア限定。フルーティーな香り。', emoji:'🍓', area:'伊勢崎東エリア' },
+  { id:3, name:'ドリンク D', desc:'太田エリア限定。すっきりとした爽快感。', emoji:'🍃', area:'太田エリア' },
+  { id:4, name:'ドリンク E', desc:'太田南エリア限定。芳醇な甘みと香り。', emoji:'🌸', area:'太田南エリア' },
+];
+
+const STORES = [
+  //  ↓ drink: 0〜4 でドリンクを指定（このお店で販売するドリンクの番号）
+  { id:1,  city:'前橋市',   name:'けやきウォーク前橋店',              addr:'前橋市 文京町2-1-1',        hours:'10:00〜21:00', lat:36.379396,  lng:139.0783944, drink:0 },
+  { id:2,  city:'前橋市',   name:'前橋六供町店',                      addr:'前橋市 六供町2-41-12',       hours:'7:00〜22:00',  lat:36.369856,  lng:139.071971,  drink:0 },
+  { id:3,  city:'前橋市',   name:'パワーモール前橋みなみ店',          addr:'前橋市 新堀町938',           hours:'8:00〜23:00',  lat:36.3293982, lng:139.098068,  drink:0 },
+  { id:4,  city:'伊勢崎市', name:'伊勢崎今泉店',                      addr:'伊勢崎市 今泉町2-338-2',     hours:'7:00〜23:00',  lat:36.3112493, lng:139.1934947, drink:1 },
+  { id:5,  city:'伊勢崎市', name:'ベイシア西部モール店',              addr:'伊勢崎市 宮子町3430-6',      hours:'8:00〜23:00',  lat:36.3311398, lng:139.1594464, drink:1 },
+  { id:6,  city:'伊勢崎市', name:'カインズ伊勢崎店',                  addr:'伊勢崎市 宮子町3161-1',      hours:'7:00〜23:00',  lat:36.3337548, lng:139.160765,  drink:1 },
+  { id:7,  city:'伊勢崎市', name:'伊勢崎下道寺店',                    addr:'伊勢崎市 下道寺町510-5',     hours:'7:00〜23:00',  lat:36.277441,  lng:139.196726,  drink:2 },
+  { id:8,  city:'伊勢崎市', name:'スマーク伊勢崎 1F はるなプラザ店', addr:'伊勢崎市 西小保方町368 1F',  hours:'9:30〜21:30',  lat:36.3391648, lng:139.2326609, drink:2 },
+  { id:9,  city:'伊勢崎市', name:'スマーク伊勢崎 2F あかぎプラザ店', addr:'伊勢崎市 西小保方町368 2F',  hours:'10:00〜21:00', lat:36.3388237, lng:139.2331964, drink:2 },
+  { id:10, city:'太田市',   name:'イオンモール太田 レストラン街店',   addr:'太田市 石原町81 1F',         hours:'10:00〜21:00', lat:36.2941099, lng:139.4005458, drink:3 },
+  { id:11, city:'太田市',   name:'イオンモール太田 WESTMALL店',       addr:'太田市 石原町81 WESTMALL1F', hours:'10:00〜21:00', lat:36.2934945, lng:139.3995983, drink:3 },
+  { id:12, city:'太田市',   name:'太田小舞木店',                      addr:'太田市 小舞木町328-1',        hours:'7:00〜23:00',  lat:36.2848459, lng:139.3850389, drink:4 },
+  { id:13, city:'太田市',   name:'太田西矢島店',                      addr:'太田市 西矢島町718-1',        hours:'7:00〜23:00',  lat:36.2762926, lng:139.376973,  drink:4 },
+];
+
+// ── 以下は編集不要 ──────────────────────────────────
+const KEY = 'gunma_dc_drinks_v1';
+const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch { return []; } };
+const save = a => localStorage.setItem(KEY, JSON.stringify(a));
+
+// 各ドリンクを扱う店舗数をカウント
+const storeCount = {};
+DRINKS.forEach(d => { storeCount[d.id] = STORES.filter(s => s.drink === d.id).length; });
+
+function buildDrinks() {
+  const got = load();
+  const g = document.getElementById('dGrid');
+  g.innerHTML = '';
+  DRINKS.forEach(d => {
+    const isGot = got.includes(d.id);
+    const el = document.createElement('div');
+    el.className = `drink-card d${d.id}${isGot?' got':''}`;
+    el.dataset.id = d.id;
+    el.innerHTML = `
+      <div class="drink-top">
+        <span>${d.emoji}</span>
+        <div class="got-layer">✅</div>
+        <div class="lim-badge">限定</div>
+      </div>
+      <div class="drink-body">
+        <div class="drink-lbl">${d.area}</div>
+        <div class="drink-name">${d.name}</div>
+        <div class="drink-desc">${d.desc}</div>
+        <span class="stores-count">${storeCount[d.id]}店舗で販売</span>
+      </div>`;
+    el.addEventListener('click', () => toggle(d.id));
+    g.appendChild(el);
+  });
+  updateBar();
+}
+
+function toggle(id) {
+  let got = load();
+  got = got.includes(id) ? got.filter(x => x !== id) : [...got, id];
+  save(got);
+  document.querySelector(`.drink-card[data-id="${id}"]`).classList.toggle('got', got.includes(id));
+  updateBar();
+}
+
+function updateBar() {
+  const n = load().length;
+  document.getElementById('pc').textContent = n;
+  document.getElementById('pf').style.width = (n/5*100)+'%';
+  document.getElementById('cBanner').classList.toggle('show', n===5);
+}
+
+function reset() {
+  if (!confirm('コレクションをリセットしますか？')) return;
+  localStorage.removeItem(KEY);
+  buildDrinks();
+}
+
+function buildStores() {
+  const l = document.getElementById('sList');
+  l.innerHTML = '';
+  STORES.forEach(s => {
+    const d = DRINKS[s.drink];
+    const url = `https://www.google.com/maps/search/?api=1&query=${s.lat},${s.lng}`;
+    const el = document.createElement('div');
+    el.className = `store-card c-${s.city}`;
+    el.dataset.city = s.city;
+    el.innerHTML = `
+      <div class="snum">${s.id}</div>
+      <div class="sinfo">
+        <h3>${s.name}</h3>
+        <div class="saddr">📍 ${s.addr}</div>
+        <div class="shours">🕐 ${s.hours}</div>
+        <span class="drink-tag dt${d.id}">${d.emoji} ${d.name}</span>
+      </div>
+      <a href="${url}" target="_blank" class="map-btn">地図を開く</a>`;
+    l.appendChild(el);
+  });
+}
+
+function filter(city, btn) {
+  document.querySelectorAll('.ctab').forEach(t => t.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('.store-card').forEach(c =>
+    c.classList.toggle('hide', city!=='all' && c.dataset.city!==city));
+}
+
+const obs = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting) e.target.classList.add('vis'); }), {threshold:.08});
+document.querySelectorAll('.fi').forEach(el => obs.observe(el));
+
+buildDrinks();
+buildStores();
+</script>
+</body>
+</html>
