@@ -53,8 +53,8 @@
   /* ──────────────────────────────────────
      [E] 開催中バッジ（点滅ドット）
   ────────────────────────────────────── */
-  --dot-color: #00704A;  /* 点滅ドットの色 */
-  --dot-bg:    #D4E9E2;  /* バッジ背景色 */
+  --dot-color: #ff0000;  /* 点滅ドットの色 */
+  --dot-bg:    #ffcccc;  /* バッジ背景色 */
   --dot-text:  #1E3932;  /* バッジ文字色 */
 
   /* ──────────────────────────────────────
@@ -128,7 +128,7 @@
   --anim-scroll-pulse: 1.6s;   /* ヒーロー：スクロールキュー */
   --anim-dot-pulse:    1.4s;   /* 開催中：ドット点滅 */
   --anim-bar-shine:    2.0s;   /* 進捗バー：光沢流れ */
-  --anim-step-ico:     0.6s;   /* How toステップ：アイコン出現 */
+  --anim-step-ico:     0.9s;   /* How toステップ：アイコン出現 */
   --anim-glow-text:    3.0s;   /* ヒーロー：ゴールドテキスト輝き */
   --anim-intro-out:    0.8s;   /* イントロ：スライドアウト */
 }
@@ -1197,7 +1197,7 @@ footer::before {
     <div class="eyebrow">STARBUCKS COFFEE — 群馬 DC</div>
     <span class="hero-icon">☕</span>
     <h1>群馬DC<br><span class="g">限定ドリンク</span><br>コレクション</h1>
-    <p class="hero-lead">各店舗でしか飲めない、<br>店舗限定ドリンクが登場。全5種類の制覇を目指そう！</p>
+    <p class="hero-lead">各店舗でしか楽しめない、<br>限定ドリンクが登場。全5種類の制覇を目指そう！</p>
     <div class="hero-nums">
       <div class="hnum"><div class="n">5</div><div class="l">限定ドリンク</div></div>
       <div class="hnum"><div class="n">13</div><div class="l">対象店舗</div></div>
@@ -1244,10 +1244,10 @@ footer::before {
       <div class="info-card rv s1">
         <span class="info-card-ico">📅</span>
         <h3>開催期間</h3>
-        <div class="info-period"><span class="dot"></span>開催中</div>
+        <div class="info-period"><span class="dot"></span>開催前</div>
         <div class="period-dates">
-          2025年4月3日<span>（木）</span><br>
-          〜 2025年5月6日<span>（火）</span>
+          2026年4月8日<span>（水）</span><br>
+          〜 2026年5月26日<span>（火）</span>
         </div>
         <p style="margin-top:8px;font-size:11px;color:var(--ts)">※在庫がなくなり次第終了となります</p>
       </div>
@@ -1256,20 +1256,18 @@ footer::before {
         <h3>開催エリア</h3>
         <ul>
           <li>前橋エリア（前橋市内 3店舗）</li>
-          <li>伊勢崎西エリア（伊勢崎市西部 3店舗）</li>
-          <li>伊勢崎東エリア（伊勢崎市東部 3店舗）</li>
-          <li>太田エリア（太田市内 2店舗）</li>
-          <li>太田南エリア（太田市南部 2店舗）</li>
+          <li>伊勢崎エリア（伊勢崎市内 6店舗）</li>
+          <li>太田エリア（太田市内 4店舗）</li>
         </ul>
       </div>
       <div class="info-card rv s3">
         <span class="info-card-ico">🥤</span>
         <h3>ドリンクについて</h3>
         <ul>
-          <li>各エリアの限定ドリンクは決められた店舗のみで販売</li>
-          <li>サイズ・カスタマイズは通常通り対応</li>
+          <li>限定ドリンクは決められた店舗のみで販売</li>
+          <li>カスタマイズは通常通り対応可</li>
           <li>テイクアウト・店内どちらでもOK</li>
-          <li>期間中何度でもご注文いただけます</li>
+          <li>期間中何度でもお楽しみいただけます</li>
         </ul>
       </div>
       <div class="info-card rv s4">
@@ -1364,7 +1362,7 @@ footer::before {
         <div class="sec-eye">Near Me</div>
         <h2 class="sec-ttl" style="font-size:clamp(1.3rem,3vw,1.8rem)">最寄りの<em>販売店舗</em></h2>
         <div class="bar"></div>
-        <p class="sec-note">現在地から近い順にトップ3を表示します。</p>
+        <p class="sec-note">現在地から一番近い店舗を表示します。</p>
       </div>
       <div class="nearest-inline rv">
         <div class="nearest-inline-left">
@@ -1409,7 +1407,7 @@ footer::before {
       <div class="sec-eye">Drink Tour Route</div>
       <h2 class="sec-ttl">ドリンク<em style="color:var(--gold)">巡回ルート</em></h2>
       <div class="bar"></div>
-      <p class="sec-note">出発する店舗を選ぶと、ドリンクA〜Eを効率よく巡る5ストップルートを提案します。</p>
+      <p class="sec-note">出発する店舗を選ぶと、5種のドリンクを巡るルートを提案します。</p>
     </div>
     <div class="route-start-wrap rv">
       <span class="route-start-label">🚀 出発店舗：</span>
@@ -1438,7 +1436,8 @@ footer::before {
   <div class="f-brand">Starbucks Coffee — EAST GUNMA</div>
   <div class="f-note">
     ※掲載情報は予告なく変更になる場合があります。<br>
-    ※限定ドリンクは各店舗の在庫状況により販売終了となる場合があります。
+    ※各店舗の在庫状況により販売終了となる場合があります。
+    Copyright© 2022 Otowa Nagase All Rights Reserved. 
   </div>
 </footer>
 
