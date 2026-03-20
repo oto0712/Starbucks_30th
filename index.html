@@ -955,17 +955,14 @@ footer::before {
 #mapSection { background: var(--ww); padding: 52px 20px; }
 #storeMap {
   /* full-bleed: コンテナを突き破って viewport 幅いっぱいに */
-  width: 100vw;
-  position: relative;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
+  width: 100%;
   height: 440px;
-  border-radius: 0;
+  border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 4px 24px rgba(0,0,0,.15);
-  margin-top: 28px; background: var(--map-bg);
+  box-shadow: 0 8px 32px rgba(0,0,0,.12);
+  border: 2px solid rgba(0,112,74,.12);
+  margin-top: 28px;
+  background: #e8ede0;
 }
 /* Google Maps InfoWindow custom style */
 .gm-popup { padding: 14px 16px; min-width: 190px; font-family: 'Noto Sans JP', sans-serif; }
@@ -1175,7 +1172,7 @@ footer::before {
     Starbucks Coffee<br><span>群馬DC 限定ドリンク</span>
   </div>
   <div class="intro-sub">EAST GUNMA — COLLECTION 2026</div>
-  <div class="intro-bar"><div class="intro-bar-fill">A</div></div>
+  <div class="intro-bar"><div class="intro-bar-fill"></div></div>
 </div>
 
 <!-- ════════════════ HERO ════════════════ -->
