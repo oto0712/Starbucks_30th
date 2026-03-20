@@ -1487,7 +1487,7 @@ footer::before {
 var CONFIG = {
   // サイトタイトル（ブラウザタブ・イントロ画面・フッターに使用）
   siteTitle:    'Starbucks Coffee',
-  campaignName: '群馬DC 限定ドリンク',
+  campaignName: '30th 限定ドリンク',
   campaignSub:  'EAST GUNMA — COLLECTION 2026',
 
   // ナビブランド名（左上のテキスト）
@@ -2259,8 +2259,8 @@ function buildShareDrinksList() {
 
 function openShareModal() {
   buildShareDrinksList();
-  var text = '【スターバックス 群馬DC】限定ドリンク全5種類制覇しました！🏆☕\n' +
-    DRINKS.map(function(d){ return '✓ ' + d.name; }).join('\n') + '\n\n#スターバックス #群馬DC #限定ドリンク';
+  var text = '【スターバックス 群馬東地区】限定ドリンク全5種類制覇しました！🏆☕\n' +
+    DRINKS.map(function(d){ return '✓ ' + d.name; }).join('\n') + '\n\n#スターバックス #群馬東地区 #限定ドリンク';
   document.getElementById('lineBtn').href =
     'https://social-plugins.line.me/lineit/share?url=' + encodeURIComponent(SHARE_URL) +
     '&text=' + encodeURIComponent(text);
