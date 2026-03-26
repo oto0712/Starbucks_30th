@@ -136,6 +136,11 @@
 html { scroll-behavior: smooth; }
 body { font-family: 'Noto Sans JP', sans-serif; background: var(--cream); color: var(--td); overflow-x: hidden; font-size: var(--fs-base); }
 
+  .sp-br { display: none; }
+@media (max-width: 700px) {
+  .sp-br { display: block; }
+}
+  
 /* ════════════════════════════════════════
    INTRO SCREEN
 ════════════════════════════════════════ */
@@ -1450,8 +1455,7 @@ footer::before {
 
     <div class="mo-hero rv">
       <div class="sec-eye">Mobile Order</div>
-      <h2 class="mo-main-title">並ばず、次の店舗へ。<br><em>モバイルオーダーを使って、スマートに巡ろう。</em></h2>
-      <div class="bar" style="margin: 14px auto;"></div>
+<h2 class="mo-main-title">並ばず、次の店舗へ。<br><em>モバイルオーダーを使って、<span class="sp-br"></span>スマートに巡ろう。</em></h2>      <div class="bar" style="margin: 14px auto;"></div>
       <p class="mo-sub-title">事前に注文すれば、待ち時間なく、次の店舗へスムーズに。</p>
     </div>
 
